@@ -24,7 +24,10 @@ public class MyInvocationHandler implements InvocationHandler {
      * 执行目标对象的方法
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return null;
+        System.out.println("--before--");
+        Object result = method.invoke(target, args);
+        System.out.println("---after--");
+        return result;
     }
 
     /**
