@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static org.apache.zookeeper.ZooDefs.*;
+import static org.apache.zookeeper.ZooDefs.Ids;
 
 
 public class SimpleDemo {
@@ -58,5 +58,11 @@ public class SimpleDemo {
         byte[] data = zkClient.getData("/uu", false, null);
         System.out.println(new String(data));
 
+    }
+
+    @Test
+    public void testDeleteZnode() throws KeeperException, InterruptedException {
+        //参数2：指定要删除的版本，-1表示删除所有版本
+        zkClient.delete("/uu",  -1);
     }
 }
