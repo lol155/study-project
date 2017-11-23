@@ -52,4 +52,11 @@ public class SimpleDemo {
         }
         Thread.sleep(Long.MAX_VALUE);
     }
+
+    @Test
+    public void testGetData() throws KeeperException, InterruptedException {
+        byte[] data = zkClient.getData("/uu", false, null);
+        System.out.println(new String(data));
+
+    }
 }
