@@ -65,4 +65,11 @@ public class SimpleDemo {
         //参数2：指定要删除的版本，-1表示删除所有版本
         zkClient.delete("/uu",  -1);
     }
+
+    @Test
+    public void testSetData() throws KeeperException, InterruptedException {
+        Stat stat = zkClient.setData("/uu1", "bbb".getBytes(), -1);
+        byte[] data = zkClient.getData("/uu1", false, null);
+        System.out.println(new String(data));
+    }
 }
