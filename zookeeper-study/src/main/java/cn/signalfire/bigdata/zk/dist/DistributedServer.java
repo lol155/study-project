@@ -1,6 +1,11 @@
 package cn.signalfire.bigdata.zk.dist;
 
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+
+import java.io.IOException;
 
 public class DistributedServer {
 
@@ -8,10 +13,10 @@ public class DistributedServer {
     private static final int sessionTimeout = 2000;
     private static final String parentNode = "/servers/";
 
-    private ZooKeeper zooKeeper = null;
+    private ZooKeeper zk = null;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //获取zk链接
         DistributedServer server = new DistributedServer();
         server.getConnect();
@@ -21,5 +26,20 @@ public class DistributedServer {
 
         //启动业务功能
         server.handleBussiness(args[0]);
+    }
+
+    private void getConnect() throws Exception {
+        new ZooKeeper(connectString, sessionTimeout, new Watcher() {
+            public void process(WatchedEvent watchedEvent) {
+                System.out.println(watchedEvent.getType() + "---" + watchedEvent.getPath());
+
+                try {
+                    zk.getChildren("/", true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        })
+
     }
 }
