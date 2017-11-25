@@ -32,7 +32,7 @@ public class DistributedServer {
         new ZooKeeper(connectString, sessionTimeout, new Watcher() {
             public void process(WatchedEvent watchedEvent) {
                 System.out.println(watchedEvent.getType() + "---" + watchedEvent.getPath());
-
+                // 收到事件通知后的回调函数（应该是我们自己的事件处理逻辑）
                 try {
                     zk.getChildren("/", true);
                 } catch (Exception e) {
