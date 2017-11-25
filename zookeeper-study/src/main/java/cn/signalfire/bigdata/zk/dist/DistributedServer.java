@@ -1,9 +1,6 @@
 package cn.signalfire.bigdata.zk.dist;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 
 import java.io.IOException;
 
@@ -26,6 +23,11 @@ public class DistributedServer {
 
         //启动业务功能
         server.handleBussiness(args[0]);
+    }
+
+    private void registerServer(String hostname) throws Exception {
+        String create = zk.create(parentNode + "server", hostname.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println(hostname + "is online .. " + create);
     }
 
     private void getConnect() throws Exception {
