@@ -2,8 +2,6 @@ package cn.signalfire.bigdata.zk.dist;
 
 import org.apache.zookeeper.*;
 
-import java.io.IOException;
-
 public class DistributedServer {
 
     private static final String connectString = "zk1:2181,zk2:2181,zk2:2181";
@@ -23,6 +21,12 @@ public class DistributedServer {
 
         //启动业务功能
         server.handleBussiness(args[0]);
+    }
+
+    private void handleBussiness(String hostname) throws InterruptedException {
+        System.out.println(hostname + "start working ..");
+        Thread.sleep(Long.MAX_VALUE);
+
     }
 
     private void registerServer(String hostname) throws Exception {
