@@ -39,7 +39,7 @@ public class DistributedServer {
                     e.printStackTrace();
                 }
             }
-        })
+        });
 
     }
 }
