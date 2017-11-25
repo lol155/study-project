@@ -13,9 +13,13 @@ public class DistributedServer {
 
     public static void main(String[] args) {
         //获取zk链接
+        DistributedServer server = new DistributedServer();
+        server.getConnect();
 
         //利用zk链接注册服务器信息
+        server.registerServer(args[0]);
 
         //启动业务功能
+        server.handleBussiness(args[0]);
     }
 }
