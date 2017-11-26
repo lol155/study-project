@@ -1,12 +1,10 @@
 package cn.signalfire.bigdata.zk.dist;
 
 import com.google.common.collect.Lists;
-import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,13 @@ public class DistributedClient {
         //获取servers的子节点信息（并监听），从中获取服务器信息列表
         client.getServerList();
         //业务线程启动
-        client.handleBussuness();
+        client.handleBussiness();
+
+    }
+
+    private void handleBussiness() throws InterruptedException {
+        System.out.println("client start working.....");
+        Thread.sleep(Long.MAX_VALUE);
 
     }
 
