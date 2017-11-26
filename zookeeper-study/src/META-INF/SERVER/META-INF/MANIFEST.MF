@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: cn.signalfire.bigdata.zk.dist.DistributedServer
+

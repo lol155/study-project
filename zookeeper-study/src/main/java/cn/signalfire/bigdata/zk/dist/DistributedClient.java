@@ -11,7 +11,7 @@ import java.util.List;
 public class DistributedClient {
     private static final String connectString = "zk1:2181,zk2:2181,zk2:2181";
     private static final int sessionTimeout = 2000;
-    private static final String parentNode = "/servers/";
+    private static final String parentNode = "/servers";
 
     private volatile List<String> serverList;
     private ZooKeeper zk = null;
@@ -39,7 +39,7 @@ public class DistributedClient {
         ArrayList<String> servers = Lists.newArrayList();
 
         for (String child : children) {
-            byte[] data = zk.getData(parentNode + child, false, null);
+            byte[] data = zk.getData(parentNode + "/" + child, false, null);
             servers.add(new String(data));
         }
 
