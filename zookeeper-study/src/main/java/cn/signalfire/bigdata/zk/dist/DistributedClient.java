@@ -1,7 +1,10 @@
 package cn.signalfire.bigdata.zk.dist;
 
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
+import java.io.IOException;
 import java.util.List;
 
 public class DistributedClient {
@@ -12,7 +15,7 @@ public class DistributedClient {
     private volatile List<String> serverList;
     private ZooKeeper zk = null;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //获取zk链接
         DistributedClient client = new DistributedClient();
         client.getConnect();
@@ -20,6 +23,15 @@ public class DistributedClient {
         client.getServerList();
         //业务线程启动
         client.handleBussuness();
+
+    }
+
+    private void getConnect() throws IOException {
+        new ZooKeeper(connectString, sessionTimeout, new Watcher() {
+            public void process(WatchedEvent watchedEvent) {
+                getServerList();
+            }
+        })
 
     }
 }
