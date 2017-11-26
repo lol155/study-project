@@ -1,10 +1,13 @@
 package cn.signalfire.bigdata.zk.dist;
 
+import com.google.common.collect.Lists;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DistributedClient {
@@ -15,7 +18,7 @@ public class DistributedClient {
     private volatile List<String> serverList;
     private ZooKeeper zk = null;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         //获取zk链接
         DistributedClient client = new DistributedClient();
         client.getConnect();
@@ -26,12 +29,31 @@ public class DistributedClient {
 
     }
 
-    private void getConnect() throws IOException {
-        new ZooKeeper(connectString, sessionTimeout, new Watcher() {
+    private void getServerList() throws Exception {
+        List<String> children = zk.getChildren(parentNode, true);
+
+        ArrayList<String> servers = Lists.newArrayList();
+
+        for (String child : children) {
+            byte[] data = zk.getData(parentNode + child, false, null);
+            servers.add(new String(data));
+        }
+
+        serverList = servers;
+
+        System.out.println(serverList);
+    }
+
+    private void getConnect() throws Exception {
+        zk = new ZooKeeper(connectString, sessionTimeout, new Watcher() {
             public void process(WatchedEvent watchedEvent) {
-                getServerList();
+                try {
+                    getServerList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        })
+        });
 
     }
 }
